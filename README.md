@@ -7,7 +7,7 @@ Get namespace
 $ kubectl get ns
 ~~~~
 
-Create namespace applications"
+Create namespace applications
 ~~~~
 $ kubectl create ns applications
 ~~~~
