@@ -18,3 +18,5 @@ spec:
           cpu: "256m"
       ports:
         - containerPort: 80
+  nodeSelector:
+    kubernetes.io/hostname: centz3
