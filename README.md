@@ -71,11 +71,6 @@ Scale replicas deployment
 $ kubectl scale --replicas=4 deploy nginx-deploy -n applications
 ~~~~
 
-Autoscale deployment
-~~~~
-$ kubectl autoscale deploy nginx-deploy --cpu-percent=80 --max=8 --min=2 -n applications
-~~~~
-
 Show revision history rollout
 ~~~~
 $ kubectl rollout history deploy nginx-deploy -n applications

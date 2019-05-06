@@ -18,3 +18,9 @@ spec:
           cpu: "256m"
       ports:
         - containerPort: 80
+  nodeSelector:
+    kubernetes.io/hostname: centz3
+
+# $ kubectl get all -n applications -o wide
+# NAME             READY     STATUS    RESTARTS   AGE       IP             NODE
+# pod/nginx-pods   1/1       Running   0          2s        10.233.85.47   centz3
