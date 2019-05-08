@@ -1,0 +1,22 @@
+# Secret #
+
+
+User: admin, Pass: dimzrio123
+
+~~~~
+$ echo "admin" | base64
+YWRtaW4=
+
+$ echo "dimzrio123" | base64
+ZGltenJpbzEyMw==
+~~~~
+
+Get secret
+~~~~
+$ kubectl get secret -n applications
+~~~~
+
+Create secret
+~~~~
+$ kubectl create secret generic mongo-secret --from-file=./credentials -n applications
+~~~~
