@@ -4,10 +4,10 @@
 User: admin, Pass: dimzrio123
 
 ~~~~
-$ echo "admin" | base64
+$ echo -n "admin" | base64
 YWRtaW4=
 
-$ echo "dimzrio123" | base64
+$ echo -n "dimzrio123" | base64
 ZGltenJpbzEyMw==
 ~~~~
 
