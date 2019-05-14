@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: greeting
+  namespace: applications
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["ls", "/dimzrio"] # error command
+      restartPolicy: Never
