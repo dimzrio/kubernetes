@@ -6,9 +6,7 @@ $ kubectl logs greeting-62vnw -n applications
 Hello Kubernetes!!!
 ~~~~
 
-Completions Jobs
-a simple case to ensure job successfully teriminate with specified number.
-
+Completions Jobs is a simple case to ensure job successfully teriminate with specified number.
 ~~~~
 $ kubectl get pods -n applications
 
@@ -17,9 +15,7 @@ greeting-9bbll   0/1     Completed   0          16s  <-- this pod run after pods
 greeting-t58j8   0/1     Completed   0          25s
 ~~~~
 
-Parallelism Job
-is an completions jobs running as parralels
-
+Parallelism Job is an completions jobs running as parralels
 ~~~~
 $ kubectl get pods -n applications
 
@@ -34,9 +30,7 @@ NAME                 COMPLETIONS   DURATION   AGE
 job.batch/greeting   5/5           18s        50s
 ~~~~
 
-Backofflimit Jobs
-is as limit to create pods if have an error
-
+Backofflimit Jobs is as limit to create pods if have an error
 ~~~~
 $ kubectl get pods -n applications
 
@@ -49,9 +43,7 @@ NAME                 COMPLETIONS   DURATION   AGE
 job.batch/greeting   0/1           47s        47s
 ~~~~
 
-ActiveDeadLineSeconds Jobs
-Similar with timeout of pods
-
+ActiveDeadLineSeconds Jobs is similar with timeout of pods
 ~~~~
 $ kubectl get pods -n applications
 
