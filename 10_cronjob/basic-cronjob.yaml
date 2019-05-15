@@ -5,7 +5,6 @@ metadata:
   namespace: applications
 spec:
   schedule: "* * * * *"  # Run every minute
-  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       template:
