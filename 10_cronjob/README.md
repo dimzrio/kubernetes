@@ -37,3 +37,8 @@ If false, the cronjob is actively scheduling job, if true existing job will not 
 #### activeDeadlineSeconds
 Job doesn't kill or stop, but delete pods after error and scheduled in second.
 
+#### startingDeadlineSeconds
+If a job cannot be started in the interval between schedule time and startingDeadlineSeconds it will not start at all.
+
+#### backoffLimit
+Number of retries for pods launched by the job. If you want your pods to never restart (“restartPolicy : Never”), you need to set it at 0. 
