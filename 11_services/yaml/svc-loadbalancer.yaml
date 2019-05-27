@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service-loadbalance
+  namespace: webapps
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-web-apps
+  externalIPs:
+    - 188.166.207.187 # balancer ip external
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30080
