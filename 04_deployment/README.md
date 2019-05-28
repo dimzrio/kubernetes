@@ -1,26 +1,26 @@
-# Deployment #
+## Deployment ##
 
-Get deployment
+#### Get deployment
 ~~~~
 $ kubectl get deploy -n applications
 ~~~~
 
-Scale replicas deployment
+#### Scale replicas deployment
 ~~~~
 $ kubectl scale --replicas=4 deploy nginx-deploy -n applications
 ~~~~
 
-Show revision history rollout
+#### Show revision history rollout
 ~~~~
 $ kubectl rollout history deploy nginx-deploy -n applications
 ~~~~
 
-Undo rollout to revision history
+#### Undo rollout to revision history
 ~~~~
 $ kubectl rollout undo deploy nginx-deploy --namespace=applications --to-revision=1
 ~~~~
 
-Get all
+#### Get all
 ~~~~
 $ kubectl get all -n applications -o wide
 

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: webserver-deploy
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: nginx-deploy
