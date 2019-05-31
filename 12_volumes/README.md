@@ -46,3 +46,10 @@ Events:
 
 ##### Recycle
 You can reuse persistentvolume with clean data. It means, recycle policy perform a basic stub (rm -rf /volume/*). 
+
+A PersistentVolume can be mounted on a host in any way supported by the resource provider.
+
+The access modes are:
+- ReadWriteOnce(RWO): the volume can be mounted as read-write by a single node
+- ReadOnlyMany(ROX): the volume can be mounted read-only by many nodes
+- ReadWriteMany(RWX): the volume can be mounted as read-write by many nodes
