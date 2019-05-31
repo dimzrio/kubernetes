@@ -45,4 +45,4 @@ Events:
 ~~~~
 
 ##### Recycle
-Recycle option with 
+You can reuse persistentvolume with clean data. It means, recycle policy perform a basic stub (rm -rf /volume/*). 
