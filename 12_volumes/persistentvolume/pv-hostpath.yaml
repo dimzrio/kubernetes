@@ -11,5 +11,6 @@ spec:
     - ReadWriteOnce
   storageClassName: localstorage
   hostPath:
-    path: /mnt/pvdevices
+    path: /tmp/pvdevices
     type: DirectoryOrCreate
+  persistentVolumeReclaimPolicy: Recycle
