@@ -113,7 +113,7 @@ Allocated resources:
 
 ### Limits ###
 
-- If memory exceeds of limit the container will be killed (restarted).
+- If memory exceeds of limit the container will be killed (restarted) - OOMKilled (Out Of Memory).
 - If cpu exceeds of limit the container still running but is clamped.
 
 ~~~~
