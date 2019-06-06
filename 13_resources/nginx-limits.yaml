@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: applications
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: myapp
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: "512Mi" # 512 Mb
+            cpu: "500m" # 0.5 of 2 cores
+          limits:
+            memory: "640Mi"
+            cpu: "700m" # Guaranted 0.7 cores
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        kubernetes.io/hostname: pool-ntr9arwdn-ypcb
+---
+
+# Error Testing
+# This container couldn't running with OOM
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat
+  namespace: applications
+spec:
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: tomcat:latest
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "32Mi" # tomcat need at least 64mb to run correctly, but limit this applications only 32mb
+            cpu: "100m"
+        ports:
+        - containerPort: 8080
+      nodeSelector:
+        kubernetes.io/hostname: pool-ntr9arwdn-ypcb

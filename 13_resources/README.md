@@ -40,7 +40,7 @@ Events:                                             <none>
 ### Requests ###
 
 ~~~~
-$ kubectl apply -f nginx-deploy.yaml
+$ kubectl apply -f nginx-requests.yaml
 deployment.apps/nginx created
 ~~~~
 
@@ -105,10 +105,27 @@ Allocated resources:
   (Total limits may be over 100 percent, i.e., overcommitted.)
   Resource                                          Requests      Limits
   --------                                          --------      ------
-  cpu                                               1502m (75%)   102m (5%) <--- 1 container pending, because only 498m (0.49) of 2000m (2Gb) core is available.
+  cpu                                               1502m (75%)   102m (5%) <--- 1 container pending, because only 498m (0.49) of 2000m (2Gb) core is available. But, container need 0.5 of core.
   memory                                            1174Mi (61%)  270Mi (14%)
   ephemeral-storage                                 0 (0%)        0 (0%)
   attachable-volumes-csi-dobs.csi.digitalocean.com  0             0
 ~~~~
 
+### Limits ###
 
+- If memory exceeds of limit the container will be killed (restarted).
+- If cpu exceeds of limit the container still running but is clamped.
+
+~~~~
+$ kubectl apply -f nginx-requests.yaml
+deployment.apps/nginx created
+~~~~
+
+~~~~
+$ kubectl get all -n applications
+NAME                         READY   STATUS      RESTARTS   AGE
+pod/nginx-f8fb8b7f6-b9ctb    0/1     Pending     0          8m40s
+pod/nginx-f8fb8b7f6-khclj    1/1     Running     0          8m40s
+pod/nginx-f8fb8b7f6-rzrcw    1/1     Running     0          8m40s
+pod/tomcat-b5dc65bf4-2z4v7   0/1     OOMKilled   1          56s
+~~~~
