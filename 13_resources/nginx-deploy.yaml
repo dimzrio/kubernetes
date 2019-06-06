@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: applications
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: myapp
+        image: nginx:alpine
+        resources:
+          requests:
+            memory: "512Mi" # 512 Mb
+            cpu: "500m" # 0.5 of 2 cores
+          # limits:
+          #   memory: "1Gi" # 1 Gb
+          #   cpu: "1" # 1 cores 
+        ports:
+        - containerPort: 80
+      nodeSelector:
+        kubernetes.io/hostname: pool-ntr9arwdn-ypcb
