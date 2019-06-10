@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: applications-limit
+  namespace: applications
+spec:
+  limits:
+    - default:
+        cpu: "500m" # Default limit cpu for default requests
+        memory: "512Mi" # Default limit memory for default requests
+      defaultRequest:
+        cpu: "300m" # Default request cpu for container
+        memory: "32Mi" # Default requests memory for container
+      max:
+        cpu: 1 # Max cpu request for container
+        memory: "1024Mi" # Max memory request for container
+      min:
+        cpu: "100m" # Min cpu request for container
+        memory: "10Mi" # Min memory request for container
+      type: Container
