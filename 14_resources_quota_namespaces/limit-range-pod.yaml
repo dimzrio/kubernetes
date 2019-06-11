@@ -12,8 +12,8 @@ spec:
         cpu: "300m" # Default request cpu for container
         memory: "32Mi" # Default requests memory for container
       max:
-        cpu: 1 # Max cpu request for container
-        memory: "1024Mi" # Max memory request for container
+        cpu: 1 # Max cpu limit for container
+        memory: "1024Mi" # Max memory limit for container
       min:
         cpu: "100m" # Min cpu request for container
         memory: "10Mi" # Min memory request for container

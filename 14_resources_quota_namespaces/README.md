@@ -70,9 +70,42 @@ Error from server (Forbidden): error when creating "14_resources_quota_namespace
 Create pods (Error) with greather then maximum limit memory requests.
 ~~~~
 $ kubectl apply -f examples/over-maximum-memory.yaml
-The Pod "nginx" is invalid: spec.containers[0].resources.requests: Invalid value: "600Mi": must be less than or equal to memory limit
+Error from server (Forbidden): error when creating "14_resources_quota_namespaces/examples/over-maximum-memory.yaml": pods "nginx" is forbidden: maximum memory usage per Container is 1Gi, but limit is 1536Mi.
 ~~~~
 
+Create deployment for 4 replicas with default request & limits. But, only 3 replicas created. (Namespace resouces not enough)
+~~~~
+$ kubectl apply -f examples/nginx-deploy.yaml
+deployment.apps/nginx-deploy created
+~~~~
 
+~~~~
+$ kubectl get pod -n applications
+NAME                            READY   STATUS    RESTARTS   AGE
+nginx-deploy-66d89c74cb-4fw4c   1/1     Running   0          7m24s
+nginx-deploy-66d89c74cb-hqzw9   1/1     Running   0          7m24s
+nginx-deploy-66d89c74cb-z6sxb   1/1     Running   0          7m24s
+~~~~
 
+~~~~
+$ kubectl describe ns applications
+Name:         applications
+Labels:       <none>
+Annotations:  <none>
+Status:       Active
 
+Resource Quotas
+ Name:            applications-quota
+ Resource         Used    Hard
+ --------         ---     ---
+ limits.cpu       1500m   2
+ limits.memory    1536Mi  2Gi
+ requests.cpu     900m    1
+ requests.memory  96Mi    1Gi
+
+Resource Limits
+ Type       Resource  Min   Max  Default Request  Default Limit  Max Limit/Request Ratio
+ ----       --------  ---   ---  ---------------  -------------  -----------------------
+ Container  memory    10Mi  1Gi  32Mi             512Mi          -
+ Container  cpu       100m  1    300m             500m           -
+~~~~
