@@ -27,3 +27,5 @@ PolicyRule:
   ---------  -----------------  --------------  -----
   pods       []                 []              [get watch list]
 ~~~~
+
+https://jeremievallee.com/2018/05/28/kubernetes-rbac-namespace-user.html
