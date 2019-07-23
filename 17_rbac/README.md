@@ -29,3 +29,6 @@ PolicyRule:
 ~~~~
 
 https://jeremievallee.com/2018/05/28/kubernetes-rbac-namespace-user.html
+
+# Cluster Role #
+a cluster role same like role, but they are cluster scope. Like get nodes, namespaces resources. etc.

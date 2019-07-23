@@ -6,6 +6,9 @@ To accessing kubernetes api have 2 way for authentications.
 Service account is an authentication handled by kubernetes for give a permission to accessing a pod.
 Processes in containers inside pods can also contact the apiserver. When they do, they are authenticated as a particular Service Account. 
 
+Ref:
+https://jeremievallee.com/2018/05/28/kubernetes-rbac-namespace-user.html
+
 ~~~~
 $ kubectl apply -f service_account/applications-sa.yaml
 serviceaccount/dimzrio-sa created
@@ -86,5 +89,11 @@ current-context: applications
 # User Account #
 User account is an authentication handled by normal user in server. When you (a human) access the cluster (for example, using kubectl), you are authenticated by the apiserver as a particular User Account (usually admin). If you create normal user in host, you MUST setup ssl certificate to connect to api server.
 
-Ref:
-https://jeremievallee.com/2018/05/28/kubernetes-rbac-namespace-user.html
+Create private key user
+~~~~
+mkdir /root/sysadmin
+cd /root/sysadmin
+openssl genrsa -out sysadmin.key 2048
+openssl req -new -key sysadmin.key -out sysadmin.csr -subj "/CN=sysadmin/O=ITOperations"
+openssl x509 -req -in sysadmin.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out sysadmin.crt -days 360
+~~~~
