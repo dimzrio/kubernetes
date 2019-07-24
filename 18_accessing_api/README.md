@@ -91,9 +91,49 @@ User account is an authentication handled by normal user in server. When you (a 
 
 Create private key user
 ~~~~
-mkdir /root/sysadmin
-cd /root/sysadmin
-openssl genrsa -out sysadmin.key 2048
-openssl req -new -key sysadmin.key -out sysadmin.csr -subj "/CN=sysadmin/O=ITOperations"
-openssl x509 -req -in sysadmin.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out sysadmin.crt -days 360
+mkdir /root/readonly
+cd /root/readonly
+openssl genrsa -out readonly.key 2048
+openssl req -new -key readonly.key -out readonly.csr -subj "/CN=readonly/O=ITOperations"
+openssl x509 -req -in readonly.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out readonly.crt -days 360
+~~~~
+
+Set context
+~~~~
+kubectl config set-context readonly-context --cluster=cluster.local --namespace=applications --user=readonly
+kubectl config set-credentials readonly --client-certificate=/root/readonly/readonly.crt --client-key=/root/readonly/readonly.key
+~~~~
+
+Create role & rolebinding
+~~~~
+$ kubectl apply -f user_account/readonly-ua.yaml
+role.rbac.authorization.k8s.io/readonly-role created
+rolebinding.rbac.authorization.k8s.io/readonly-rolebinding created
+~~~~
+
+View contexts
+~~~~
+$ kubectl config get-contexts
+CURRENT   NAME                             CLUSTER         AUTHINFO           NAMESPACE
+*         kubernetes-admin@cluster.local   cluster.local   kubernetes-admin   
+          readonly-context                 cluster.local   readonly           applications
+~~~~
+
+Use readonly context
+~~~~
+$ kubectl config use-context readonly-context
+Switched to context "readonly-context".
+~~~~
+
+Testing readonly user
+~~~~
+$ kubectl get nodes
+Error from server (Forbidden): nodes is forbidden: User "readonly" cannot list resource "nodes" in API group "" at the cluster scope
+~~~~
+
+### Setup remote context for readonly ###
+~~~~
+$ mkdir ~/.kube/
+$ mkdir ~/.kube/cert/
+$ scp root@IPADDR:/root/.kube/config ~/.kube/
 ~~~~

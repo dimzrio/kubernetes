@@ -1,8 +1,8 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: developer-role
-  namespace: development
+  name: readonly-role
+  namespace: applications
 rules:
 - apiGroups: ["", "extensions", "apps"]
   resources: ["pods", "deployments", "replicasets"]
@@ -12,13 +12,13 @@ rules:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: developer-binding
-  namespace: development
+  name: readonly-rolebinding
+  namespace: applications
 subjects:
 - kind: User
-  name: devel
+  name: readonly
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: developer-role
+  name: readonly-role
