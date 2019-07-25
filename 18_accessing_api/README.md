@@ -135,5 +135,31 @@ Error from server (Forbidden): nodes is forbidden: User "readonly" cannot list r
 ~~~~
 $ mkdir ~/.kube/
 $ mkdir ~/.kube/cert/
-$ scp root@IPADDR:/root/.kube/config ~/.kube/
+$ scp root@IPADDR_MASTER:/root/.kube/config ~/.kube/
+$ scp root@@IPADDR_MASTER:/root/readonly/readonly.* ~/.kube/cert/
+~~~~
+
+### Edit kube config ###
+Remove context & user kubernetes-admin from config file.
+~~~~
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tL......
+    server: https://IPADDR_MASTER:6443
+  name: cluster.local
+contexts:
+- context:
+    cluster: cluster.local
+    namespace: applications
+    user: readonly
+  name: readonly-context
+current-context: readonly-context
+kind: Config
+preferences: {}
+users:
+- name: readonly
+  user:
+    client-certificate: ~/.kube/cert/readonly.crt
+    client-key: ~/.kube/cert/readonly.key
 ~~~~
