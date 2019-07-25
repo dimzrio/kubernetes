@@ -4,9 +4,14 @@ metadata:
   name: readonly-role
   namespace: applications
 rules:
-- apiGroups: ["", "extensions", "apps"]
-  resources: ["pods", "deployments", "replicasets"]
-  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+# Full Permission for pods, deployment & replicasets
+# - apiGroups: ["", "extensions", "apps"]
+#   resources: ["pods", "deployments", "replicasets"]
+#   verbs: ["*"]
 
 ---
 kind: RoleBinding
