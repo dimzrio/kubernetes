@@ -160,6 +160,6 @@ preferences: {}
 users:
 - name: readonly
   user:
-    client-certificate: ~/.kube/cert/readonly.crt
-    client-key: ~/.kube/cert/readonly.key
+    client-certificate: cert/readonly.crt
+    client-key: cert/readonly.key
 ~~~~
