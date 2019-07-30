@@ -1,42 +1,36 @@
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: iresizer-sa
-  namespace: iresizer
----
-kind: Role
+# Bind service account to cluster-admin Cluster Role
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
 metadata:
-  namespace: iresizer
-  name: iresier-role
-rules:
-- apiGroups: [""]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["apps"]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["batch"]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["extensions"]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["autoscaling"]
-  resources: ["*"]
-  verbs: ["*"]
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: iresizer-rolebinding
-  namespace: iresizer
+  name: applications-clusterrolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: iresizer-sa
-  namespace: iresizer
+  name: applications-sa
+  namespace: applications
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: kubernetes
+
+---
+
+# Bind service account default & applicastions-sa in namespace applications to admin cluster role 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: applications-rolebinding
+  namespace: applications
 roleRef:
-  kind: Role
-  name: iresizer-role
   apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- kind: ServiceAccount
+  name: applications-sa
+  namespace: applications
+- kind: ServiceAccount
+  name: default
+  namespace: applications
