@@ -13,6 +13,8 @@ iresizer-deploy-testing:
   stage: test
   script:
     - kubectl version
+  tags:
+    - testing-runner
 ~~~~
 
 Create namespaces
