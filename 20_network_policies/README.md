@@ -11,6 +11,8 @@ A network policy can provice:
 - A pod can be "selected" by any number of network policies.
 
 ### Scenario 1
+Allow connection from specifiec pods.
+
 Run a web server in a pod.
 ~~~~
 $ kubectl create deployment nginx --image=nginx
@@ -59,4 +61,71 @@ If you don't see a command prompt, try pressing enter.
 ....
 <h1>Welcome to nginx!</h1>
 ....
+~~~~
+
+### Scenario 2
+Block connection from another namepsaces.
+
+Create NS application
+~~~~
+$ kubectl create ns applications
+namespace/applications created
+~~~~
+
+Deploy nginx to ns applications
+~~~~
+$ kubectl create deployment nginx --image=nginx --namespace=applications
+deployment.apps/nginx created
+~~~~
+
+Drop connection from another namespace to applications.
+~~~~
+$ kubectl apply -f scenario-2/netpol-deny.yaml
+networkpolicy.networking.k8s.io/deny-all created
+~~~~
+
+Run alpine in default namespace
+~~~~
+$ kubectl run -i --tty --rm curl --image=centos --restart=Never -- bash
+If you don't see a command prompt, try pressing enter.
+
+[root@curl /]# curl 10.233.73.109
+
+~~~~
+Note: The curl command should be timeout.
+
+Allowing connection from namespace testing
+~~~~
+$ kubectl apply -f scenario-2/netpol-allow.yaml
+networkpolicy.networking.k8s.io/allow-testing-ns created
+~~~~
+
+~~~~
+$ kubectl create ns testing
+namespace/testing created
+~~~~ 
+
+for example i will set label name=testing for namespace testing.
+~~~~
+$ kubectl label ns testing name=testing
+namespace/testing labeled
+~~~~
+~~~~
+$ kubectl get ns --show-labels
+....
+NAME              STATUS   AGE     LABELS
+applications      Active   21m     <none>
+testing           Active   6m48s   name=testing,ns=testing
+....
+~~~~
+
+Testing curl from ns testing
+~~~~
+$ kubectl run -i --tty --rm curl --image=centos --namespace=testing --restart=Never -- bash
+If you don't see a command prompt, try pressing enter.
+
+[root@curl /]# curl 10.233.73.109
+...
+<h1>Welcome to nginx!</h1>
+...
 ~~~~

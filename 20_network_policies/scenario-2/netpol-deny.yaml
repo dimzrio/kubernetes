@@ -1,0 +1,8 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deny-all
+  namespace: applications
+spec:
+  podSelector: {} # is empty, this means it will match all the pods.
+  ingress: [] # This causes incoming traffic to be dropped to the selected (=all) pods
