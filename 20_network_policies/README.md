@@ -53,6 +53,10 @@ networkpolicy.networking.k8s.io/allow-curl created
 
 Testing curl
 ~~~~
-
+$ kubectl run -i --tty --rm curl --image=centos --restart=Never -- bash
+If you don't see a command prompt, try pressing enter.
+[root@curl /]# curl 10.233.65.141
+....
+<h1>Welcome to nginx!</h1>
+....
 ~~~~
-
