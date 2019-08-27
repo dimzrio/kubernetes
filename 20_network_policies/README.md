@@ -11,7 +11,7 @@ A network policy can provice:
 - A pod can be "selected" by any number of network policies.
 
 ### Scenario 1
-Allow connection from specifiec pods.
+Block connection from another pod, allow connection from specifiec pods.
 
 Run a web server in a pod.
 ~~~~
@@ -29,7 +29,7 @@ Test accessing nginx from master
 ~~~~
 $ curl 10.233.65.141
 ....
-<title>Welcome to nginx!</title>
+<h1>Welcome to nginx!</h1>
 ....
 ~~~~
 
@@ -64,7 +64,7 @@ If you don't see a command prompt, try pressing enter.
 ~~~~
 
 ### Scenario 2
-Block connection from another namepsaces.
+Block connection from another namepsaces, and allow specifiec namespaces.
 
 Create NS application
 ~~~~
