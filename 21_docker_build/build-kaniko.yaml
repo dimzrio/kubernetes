@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: build-image
+spec:
+  restartPolicy: OnFailure
+  initContainers:
+  - name: git-clone
+    image: alpine
+    command: ["sh", "-c"]
+    args: 
+    - |
+      apk add --no-cache git &&
+      git clone https://gitlab-ci-token:TTgyKznV6yxy1Y3_8zFx@git-sysnet.detik.com/sysnet/iresizer.git /workspace
+    volumeMounts:
+    - name: workspace
+      mountPath: /workspace
+  containers:
+  - name: build-image
+    image: gcr.io/kaniko-project/executor:latest
+    args:
+      - "--context=/workspace/"
+      - "--destination=dregistry.detik.com:5000/iresizer/resizer:latest"
+      - "--verbosity=info"
+    volumeMounts:
+    - name: workspace
+      mountPath: /workspace
+    - name: config
+      mountPath: /kaniko/.docker
+  volumes:
+  - name: workspace
+  - name: config
+    projected:
+        sources:
+        - secret:
+            name: docker-credentials
+            items:
+              - key: .dockerconfigjson
+                path: config.json

@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: build-image
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: docker-build
+    image: docker
+    env:
+    - name: REGISTRY_URL
+      value: "dregistry.detik.com:5000"
+    - name: REGISTRY_USER
+      value: "detik"
+    - name: REGISTRY_PASSWD
+      value: "docker@detikc0m"
+    - name: GIT_URL
+      value: "https://gitlab-ci-token:TTgyKznV6yxy1Y3_8zFx@git-sysnet.detik.com/sysnet/iresizer.git"
+    - name: IMAGE_NAME
+      value: "iresizer/resizer:latest"
+    command: ["sh", "-c"]
+    args:
+    - |
+      apk update &&
+      apk add --no-cache git &&
+      mkdir /workspace &&
+      git clone $GIT_URL /workspace &&
+      docker login $REGISTRY_URL -u $REGISTRY_USER -p $REGISTRY_PASSWD &&
+      docker build -t $REGISTRY_URL/$IMAGE_NAME /workspace/. &&
+      docker push $REGISTRY_URL/$IMAGE_NAME
+    volumeMounts:
+    - name: docker-socket
+      mountPath: /var/run/docker.sock
+    - name: docker-root
+      mountPath: /root/.docker/
+  volumes:
+  - name: docker-socket
+    hostPath:
+      path: /var/run/docker.sock
+  - name: docker-root
+    hostPath:
+      path: /root/.docker/
