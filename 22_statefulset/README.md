@@ -45,7 +45,14 @@ service/nginx-headless created
 statefulset.apps/nginx-sts created
 ~~~~
 
-In command above, each container of statefulset automatically created persistance volume.
-By default, if we
+In command above, each container of statefulset automatic provision persistance volume.
 ~~~~
+$ kubectl get pv,pvc
+NAME                                                        CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                     STORAGECLASS   REASON   AGE
+persistentvolume/pvc-2ce394fb-cd57-11e9-a056-080027ee73ba   100Mi      RWO            Delete           Bound    default/www-nginx-sts-0   hostpath                21s
+persistentvolume/pvc-32fe8126-cd57-11e9-a056-080027ee73ba   100Mi      RWO            Delete           Bound    default/www-nginx-sts-1   hostpath                3s
+
+NAME                                    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/www-nginx-sts-0   Bound    pvc-2ce394fb-cd57-11e9-a056-080027ee73ba   100Mi      RWO            hostpath       21s
+persistentvolumeclaim/www-nginx-sts-1   Bound    pvc-32fe8126-cd57-11e9-a056-080027ee73ba   100Mi      RWO            hostpath       11s
 ~~~~
