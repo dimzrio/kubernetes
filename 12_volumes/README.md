@@ -1,4 +1,4 @@
-## Volumes ##
+# Volumes #
 
 ### Host Path ###
 A hostPath volume mounts a file or directory from the host node’s filesystem into your Pod.
@@ -53,3 +53,28 @@ The access modes are:
 - ReadWriteOnce(RWO): the volume can be mounted as read-write by a single node
 - ReadOnlyMany(ROX): the volume can be mounted read-only by many nodes
 - ReadWriteMany(RWX): the volume can be mounted as read-write by many nodes
+
+# Volume Plugins #
+Kubernetes have many volume plugins.
+
+### Remote Storage 
+- GCE Persistent Disk (GCE-PD)
+- AWS Elastic Block Storage
+- Azure File Storage
+- iSCSI
+- NFS
+- Ceph
+- GlusterFS
+
+### Ephemeral Storage
+- EmptyDir
+- Expose Kubernetes API (Secret & ConfigMap)
+
+### Local Persistent Volume
+
+### Out-of-Tree
+- Flex (Exec a binary)
+- CSI (Container Storage Interface)
+
+### Other
+- Host Path
