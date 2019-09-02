@@ -1,4 +1,3 @@
-
 # Volume Plugins #
 Kubernetes have many volume plugins.
 
