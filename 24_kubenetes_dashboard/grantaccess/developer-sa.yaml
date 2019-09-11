@@ -1,0 +1,98 @@
+# Create Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: development
+---
+# Create Service account for namespace
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: developer
+  namespace: development
+---
+# Create role full access for specific apiGroups
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: developer
+  namespace: development
+rules:
+- apiGroups:
+    - ""
+  resources: 
+    - pods
+    - services
+    - persistentvolumeclaims
+    - configmaps
+    - secret
+    - events
+    - replicationcontrollers
+  verbs: ["*"]
+- apiGroups:
+    - "apps"
+  resources: 
+    - daemonsets
+    - deployments
+    - replicasets
+    - statefulsets
+  verbs: ["*"]
+- apiGroups:
+  - "extensions"
+  resources:
+  - ingresses
+  verbs: ["*"]
+- apiGroups:
+  - "batch"
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]
+---
+# Binding service account to Role
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: developer
+  namespace: development
+subjects:
+- kind: ServiceAccount
+  name: developer
+  namespace: development
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: developer
+---
+# Create cluster role read-only for namespace and nodes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: developer-dashboard
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+---
+# Binding service account to clusterrole
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: developer-dashboard
+  namespace: development
+subjects:
+- kind: ServiceAccount
+  name: developer
+  namespace: development
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: developer-dashboard
+
+  # Note: This role only full access in namespace development
