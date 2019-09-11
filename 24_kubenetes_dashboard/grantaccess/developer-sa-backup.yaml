@@ -20,12 +20,29 @@ metadata:
 rules:
 - apiGroups:
     - ""
-    - "apps"
-    - "extensions"
-    - "batch"
-    - "autoscaling"
   resources: 
-    - "*"
+    - pods
+    - pods/exec
+    - pods/log
+    - services
+    - persistentvolumeclaims
+    - configmaps
+    - secret
+    - events
+    - replicationcontrollers
+  verbs: ["*"]
+
+- apiGroups:
+    - "apps"
+  resources: 
+    - daemonsets
+    - deployments
+    - deployments/rollback
+    - deployments/scale
+    - replicasets
+    - replicasets/scale
+    - statefulsets
+    - statefulsets/scale
   verbs: ["*"]
 
 - apiGroups:
@@ -34,6 +51,18 @@ rules:
   - ingresses
   verbs: ["*"]
 
+- apiGroups:
+  - "batch"
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]
+
+- apiGroups:
+  - autoscaling
+  resources:
+  - "*"
+  verbs: ["*"]
 ---
 # Binding service account to Role
 kind: RoleBinding
@@ -206,13 +235,13 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
   name: developer-dashboard
   namespace: development
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: system:metrics-server
 subjects:
 - kind: ServiceAccount
   name: developer
   namespace: development
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: developer-dashboard
 
   # Note: This role only full access in namespace development
