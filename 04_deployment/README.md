@@ -33,3 +33,7 @@ deployment.apps/webserver-deploy   1         1         1            1           
 NAME                                          DESIRED   CURRENT   READY     AGE       CONTAINERS   IMAGES         SELECTOR
 replicaset.apps/webserver-deploy-78f9dd7454   1         1         1         7m        nginx        nginx:alpine   app=nginx-deploy,pod-template-hash=78f9dd7454
 ~~~~
+
+### Note:
+You must add resources, to enable metrics server.
+If you don't set, HPA couldn't get cpu info from pods even though metric-server is deployed. 

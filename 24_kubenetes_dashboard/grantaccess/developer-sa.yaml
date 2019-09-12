@@ -209,7 +209,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: system:metrics-server
+  name: developer-dashboard
 subjects:
 - kind: ServiceAccount
   name: developer
